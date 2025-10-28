@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "https://app.ecwid.com/api/v3/{storeId}",
+      "url": "https://app.ecwid.com/api/v3/88317525",
       "description": "Ecwid API Base URL",
       "variables": {
         "storeId": {
@@ -199,4 +199,5 @@
       }
     }
   }
+
 }
