@@ -12,7 +12,7 @@
       "variables": {
         "storeId": {
           "description": "Your Ecwid store ID",
-          "default": "123456"
+          "default": "88317525"
         }
       }
     }
