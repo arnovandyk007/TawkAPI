@@ -1,0 +1,202 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Ecwid Store API",
+    "version": "1.0.0",
+    "description": "API integration for Ecwid store to manage orders and products via Tawk.to AI Assist."
+  },
+  "servers": [
+    {
+      "url": "https://app.ecwid.com/api/v3/{storeId}",
+      "description": "Ecwid API Base URL",
+      "variables": {
+        "storeId": {
+          "description": "Your Ecwid store ID",
+          "default": "123456"
+        }
+      }
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Ecwid API access token"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/orders": {
+      "get": {
+        "summary": "Search Orders",
+        "operationId": "searchOrders",
+        "parameters": [
+          {
+            "name": "email",
+            "in": "query",
+            "description": "Customer's email address",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "createdFrom",
+            "in": "query",
+            "description": "Order placement start datetime",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "createdTo",
+            "in": "query",
+            "description": "Order placement end datetime",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          },
+          {
+            "name": "fulfillmentStatus",
+            "in": "query",
+            "description": "Order fulfillment status",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["AWAITING_PROCESSING", "PROCESSING", "SHIPPED", "DELIVERED", "RETURNED"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of orders matching the search criteria",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Order"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "429": {
+            "description": "Rate limit exceeded"
+          }
+        }
+      }
+    },
+    "/products/{productId}": {
+      "get": {
+        "summary": "Get Product Details",
+        "operationId": "getProduct",
+        "parameters": [
+          {
+            "name": "productId",
+            "in": "path",
+            "description": "ID of the product",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Product details",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized access"
+          },
+          "404": {
+            "description": "Product not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Order": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Order ID"
+          },
+          "email": {
+            "type": "string",
+            "description": "Customer's email address"
+          },
+          "total": {
+            "type": "number",
+            "format": "float",
+            "description": "Total order cost"
+          },
+          "created": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Order creation timestamp"
+          },
+          "status": {
+            "type": "string",
+            "description": "Order status"
+          }
+        }
+      },
+      "Product": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Product ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Product name"
+          },
+          "sku": {
+            "type": "string",
+            "description": "Stock Keeping Unit"
+          },
+          "price": {
+            "type": "number",
+            "format": "float",
+            "description": "Product price"
+          },
+          "description": {
+            "type": "string",
+            "description": "Product description"
+          }
+        }
+      }
+    }
+  }
+}
