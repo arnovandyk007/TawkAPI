@@ -58,7 +58,6 @@
       }
     }
   },
-  "security": [{ "bearerAuth": [] }],
   "paths": {
     "/products": {
       "get": {
