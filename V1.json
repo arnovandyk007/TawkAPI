@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "Ecwid Store API",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "API integration for Ecwid store to manage orders and products via Tawk.to AI Assist.",
     "x-api-scopes": [
       "update_catalog",
@@ -21,14 +21,6 @@
     }
   ],
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT",
-        "description": "Ecwid API access token"
-      }
-    },
     "schemas": {
       "Order": {
         "type": "object",
@@ -67,7 +59,7 @@
           {
             "name": "keyword",
             "in": "query",
-            "required": true,
+            "required": false,
             "schema": { "type": "string" },
             "description": "Search keyword (product name or SKU)"
           }
